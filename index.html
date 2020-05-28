@@ -1,0 +1,178 @@
+<style>
+
+@font-face{
+	font-family:Dancing;
+	src:url("../Downloads/Dancing_Script/static/Bold.ttf");
+}
+
+*{
+	padding:0;
+	margin:0;
+	box-sizing:border-box;
+}
+
+body {
+	font-family:Dancing;
+	padding-top:1em;
+	display:flex;
+	flex-direction:column;
+	justify-content:center;
+	min-height:100vh;
+	text-align:center;
+	align-items:center;
+	transition:background-color 250ms ease-in-out;
+}
+
+button:hover {
+	box-shadow:0 0 12px 4px #999;
+}
+button:active {
+	box-shadow:none;
+}
+
+button {
+	background-color:#45046a;
+	color:#fef;
+	margin-bottom:2em;
+	letter-spacing:1px;
+	font-size:18px;
+	width:150px;
+	padding:0.75em 0.5em;
+	border:none;
+	cursor:pointer;
+	font-weight:600;
+	box-shadow:0 0 12px 4px #666;
+	border-radius:4px;
+	transition:250ms ease-in-out;
+	outline:none;
+}
+
+h3 {
+	position:relative;
+	display:flex;
+	font-weight:600;
+	align-items:center;
+	letter-spacing:1.7px;
+	font-size:2.6em;
+	line-height:45px;
+	color:#333;
+	border:20px solid #ffd31d;
+	padding:2em;
+	min-height:fit-content;
+	width:560px;
+	height:450px;
+	box-shadow:0px 0px 15px 16px #cff,2px 2px 25px 6px #888;
+	background-image:linear-gradient(to top,#5fdde5,#3797a4,#82c4c3);
+	border-radius:2px;
+}
+.show {
+	margin-top:1.5em;
+}
+.click{
+	width:200px;
+}
+
+h3::before {
+	content:"";
+	top:13px;
+	font-size:0.7em;
+	left:16px;
+	position:absolute;
+	width:2em;
+	height:1.5em;
+		background-image:url('https://img.icons8.com/color/120/000000/quote-left.png');
+	background-position:center;
+	background-size:2.5em;
+}
+
+h3::after {
+	content:url("");
+	bottom:13px;
+	right:16px;
+	position:absolute;
+	width:2em;
+	font-size:0.7em;
+	height:1.5em;
+	background-image:url('https://img.icons8.com/color/120/000000/quote-right.png');
+	background-position:center;
+	background-size:2.5em;
+}
+
+.social {
+  display :none;
+  position:relative;
+	padding:0.5em;
+	background-color:#00005c;
+	width:560px;
+	transition:display 350ms ease-in-out;
+	border-radius: 0 0 2px 2px;
+	z-index:2;
+}
+
+.s {
+	display:flex;
+	justify-content:space-between;
+	transition:display 350ms ease-in-out;
+}
+
+</style>
+
+<body>
+	<button class="click">Random Advice</button>
+	<h3></h3>
+	<div class="social">
+		<a class="twitter" target="_blank" rel = "noopener noreferrer" href="#">
+			<img src="https://img.icons8.com/fluent/48/000000/twitter.png"/>
+	</a>
+	
+	<a class="fb" href="#"><img src="https://img.icons8.com/fluent/48/000000/facebook-new.png"/></a>
+</div>
+	<button class="show">Share</button>
+	
+	<script>
+
+	const h3 = document.querySelector("h3")
+	const btn = document.querySelector(".click")
+	const share = document.querySelector(".show")
+	const s = document.querySelector(".social")
+	const twitter = document.querySelector('.twitter')
+	const fb = document.querySelector(".fb")
+
+		fetch("https://api.adviceslip.com/advice")
+			.then(res => res.json())
+			.then(data => {
+			const link = encodeURIComponent(data.slip.advice)
+				twitter.setAttribute("href",`https://twitter.com/intent/tweet?text=${link}`)
+				h3.innerHTML =data.slip.advice
+				})
+				//h3.innerHTML = "Today, do not use the words â€˜Kind of,' â€˜Sort of' or â€˜Maybe.' It either is or it isn't."
+
+const r = () => {
+	return Math.floor(Math.random()*217)+1
+}
+	const color = () => {
+		const r = Math.floor(Math.random()*16777215).toString(16)
+		document.body.style.backgroundColor = "#" + r;
+	}
+	
+	color()
+
+	const clickHandler =() => {
+		fetch(`https://api.adviceslip.com/advice/${r()}`)
+			.then(res => res.text())
+			.then(data => {
+					const {slip:{advice}} =JSON.parse(data+"}")
+					const link = encodeURIComponent(advice)
+					h3.innerHTML = advice
+					twitter.setAttribute("href",`https://twitter.com/intent/tweet?text=${link}`)
+			})
+			.catch(err => console.error(err))
+			color()
+	}
+
+	btn.addEventListener("click",clickHandler)
+	share.addEventListener("click",() => {
+			s.classList.toggle("s")
+	})
+	</script>
+</body>
