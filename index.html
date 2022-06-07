@@ -157,7 +157,7 @@ const r = () => {
 		fetch(`https://api.adviceslip.com/advice/${r()}`)
 			.then(res => res.text())
 			.then(data => {
-					const {slip:{advice}} =JSON.parse(data+"}")
+					const {slip:{advice}} =JSON.parse(data)
 					const link = encodeURIComponent(advice)
 					h3.innerHTML = advice
 					twitter.setAttribute("href",`https://twitter.com/intent/tweet?text=${link}`)
