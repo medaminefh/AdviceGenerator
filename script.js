@@ -13,7 +13,7 @@
 				twitter.setAttribute("href",`https://twitter.com/intent/tweet?text=${link}`)
 				h3.innerHTML =data.slip.advice
 				})
-				//h3.innerHTML = "Today, do not use the words â€˜Kind of,' â€˜Sort of' or â€˜Maybe.' It either is or it isn't."
+				
 
 const r = () => {
 	return Math.floor(Math.random()*217)+1
